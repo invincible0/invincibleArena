@@ -11,6 +11,7 @@
   "dependencies": {
     "ejs-mate": "^3.0.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "mongodb": "^3.6.6",
     "mongoose": "^5.12.7",
     "passport": "^0.4.1",
