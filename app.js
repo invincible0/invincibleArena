@@ -19,7 +19,7 @@ const secret = process.env.SECRET || 'thisIsDummySecret';
 app.engine('ejs',ejsMate);
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'));
-
+app.use(express.urlencoded({ extended: true }));
 // app.use(express.static(path.join(__dirname,'public')));
 
 const sessionConfig = {
@@ -32,6 +32,7 @@ const sessionConfig = {
         maxAge: 1000*60*60*24*7
     }
 };
+
 app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());//session should be used before this

@@ -7,6 +7,17 @@
     <title>Register</title>
 </head>
 <body>
-    <h1>Register Page</h1>
+    <h1>Register</h1>
+    <form action="/register" method="POST">
+        <div>
+            <label for="username">Username </label>
+            <input type="text" id="username" name="username">
+            <label for="email">Email </label>
+            <input type="email" name="email" id="email">
+            <label for="password">Password </label>
+            <input type="password" name="password" id="password">
+            <button>Register</button>
+        </div>
+    </form>
 </body>
 </html>
