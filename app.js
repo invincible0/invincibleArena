@@ -41,6 +41,11 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use((req,res,next)=>{
+    res.locals.currentUser = req.user;
+    next();
+});
+
 mongoose.connect(dbUrl,{
     useNewUrlParser:true,
     useCreateIndex:true,
@@ -54,16 +59,17 @@ db.once("open",()=>{
     console.log("Database connected");
 }); 
 
-// app.get('/fakeUser',async (req,res)=>{
-//     const user = new User({email:'abbbbb@gmail.com',username:'abbb'});
-//     const newUser = await User.register(user,'abcd');
-//     res.send(newUser);
-// })
-
 app.use('/',userRoutes);
 
 app.get('/',(req,res)=>{
     res.render('home');
+});
+
+app.get('/secret',(req,res)=>{
+    if(req.isAuthenticated()==false){
+        res.send("you must be signed in");
+    }
+    res.send("here is the secret");
 })
 
 app.listen(port,()=>{
