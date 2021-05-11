@@ -6,11 +6,12 @@ const User = require('./models/user');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const session = require('express-session');
+const ExpressError = require('./utils/ExpressError');
+const flash = require('connect-flash');
 
 const app = express();
 
 const userRoutes = require('./routes/users');
-const { getMaxListeners } = require('./models/user');
 
 const port = process.env.PORT || 3000;
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/minorProject';
@@ -34,6 +35,7 @@ const sessionConfig = {
 };
 
 app.use(session(sessionConfig));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());//session should be used before this
 passport.use(new LocalStrategy(User.authenticate()));
@@ -43,6 +45,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use((req,res,next)=>{
     res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
     next();
 });
 
@@ -70,6 +74,16 @@ app.get('/secret',(req,res)=>{
         res.send("you must be signed in");
     }
     res.send("here is the secret");
+})
+
+app.all('*',(req,res,next)=>{
+    next(new ExpressError('Page Not Found',404));
+});
+
+app.use((err,req,res,next)=>{
+    const {statusCode=500}= err;
+    if(!err.message) err.message = 'Something went Wrong';
+    res.status(statusCode).render('error',{err});
 })
 
 app.listen(port,()=>{
