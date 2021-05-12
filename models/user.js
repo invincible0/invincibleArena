@@ -8,10 +8,10 @@ const UserSchema = new Schema({
         required: true,
         unique: true
     },
-    // fullname:{
-    //     type: String,
-    //     required: true
-    // }
+    fullname:{
+        type: String,
+        required: true
+    }
 });
 
 UserSchema.plugin(passportLocalMongoose);   
