@@ -50,7 +50,7 @@ module.exports.register = async(req,res,next)=>{
 
     }catch (e){
         console.log(e);
-        req.flash('error','Error');
+        req.flash('error','Error fdsadf');
         res.redirect('/register');
     }
 };
@@ -129,8 +129,7 @@ module.exports.renderAuth = (req,res)=>{
             req.flash('error','Invalid or expired token');
             return res.redirect('/register');
         }
-        return res.render('users/auth',{token:token});
+        res.locals.token=token;
+        return res.render('users/auth');
     })
-    req.flash('error','Something went wrong');
-    return res.redirect('/');
 }
