@@ -14,4 +14,8 @@ router.route('/login')
 
 router.get('/logout',users.logout);
 
+router.get('/auth/:token',users.renderAuth);
+
+router.post('/auth',users.auth);
+
 module.exports = router;

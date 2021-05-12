@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV !== "production"){
+    require('dotenv').config();
+}
+
 const express = require('express');
 const path = require('path');
 const ejsMate = require('ejs-mate');
@@ -8,20 +12,22 @@ const LocalStrategy = require('passport-local');
 const session = require('express-session');
 const ExpressError = require('./utils/ExpressError');
 const flash = require('connect-flash');
+const cors = require('cors');
 
 const app = express();
 
 const userRoutes = require('./routes/users');
 
-const port = process.env.PORT || 3000;
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/minorProject';
-const secret = process.env.SECRET || 'thisIsDummySecret';
+const port = process.env.PORT;
+const dbUrl = process.env.DB_URL;
+const secret = process.env.SECRET;
 
 app.engine('ejs',ejsMate);
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname,'public')));
+app.use(cors());
 
 const sessionConfig = {
     secret,
@@ -45,6 +51,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use((req,res,next)=>{
     res.locals.currentUser = req.user;
+    res.locals.token="";
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
