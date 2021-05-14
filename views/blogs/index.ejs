@@ -1,0 +1,22 @@
+<% layout('layouts/boilerplate')%>
+
+<a href="/blog/new" class="btn btn-lg btn-secondary font-weight-bold border-white bg-black mt-10 mb-3">Create Blog</a>
+
+<% for(let blog of blogs) {%>
+    <div class="card mb-3">
+        <div class="row">
+            <div class="col">
+                <div class="card-body">
+                    <h5 class="card-title"><%= (blog.title).substring(0,Math.min(blog.title.length,60)) %> ..</h5>
+                    <p class="card-text"><%= (blog.body).substring(0,Math.min(blog.body.length,300)) %> .... </p>
+                    <footer class="blockquote-footer">
+                        <small class="text-muted">
+                            <cite title="Source Title"><%= blog.date %> </cite>
+                        </small>
+                      </footer>
+                    <a href="/blog/<%= blog._id %>" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %> 

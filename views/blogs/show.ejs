@@ -1,0 +1,79 @@
+<% layout('layouts/boilerplate')%>
+
+<div class="container">
+    <h1><%= blog.title %> </h1>
+    <p><%= blog.body %> </p>
+
+    <div class="d-flex flex-row justify-content-between">
+        <div class="d-flex flex-column">
+            <cite><%=blog.author.fullname%> </cite>
+            <cite><%=blog.date %> </cite>
+        </div>
+        <div>
+            <div class="d-flex flex-column">
+                <div>Vote Count: <%=blog.votes %> </div>
+                <% if(currentUser){ %>
+                    <% if(currentUser._id.toString()!==blog.author._id.toString()){ %> 
+                    <div class="d-flex flex-row justify-content-between">
+                        <a href="#" class="btn"><i class="fas fa-thumbs-up"></i></a>
+                        <a href="#" class="btn"><i class="fas fa-thumbs-down"></i></a>
+                    </div>
+                    <% }else{ %>
+                        <div class="d-flex flex-row justify-content-between">
+                            <a href="#" class="btn btn-info">Edit</a>
+                            <a href="#" class="btn btn-danger">Delete</a>
+                        </div>
+                    <% } %>  
+                <% } %>  
+            </div>
+        </div>
+    </div>
+    <hr>
+    <% if(!currentUser){ %> 
+        <cite>Please login to comment, like or dislike</cite>
+    <% }else{ %>
+        <form action="/blog/<%=blog._id%>" method="POST" class="mb-3 validated-form" novalidate>
+            <div class="mb-3">
+                <label class="form-label" for="body">Leave Comment</label>
+                <textarea class="form-control" name="body" id="body" cols="30" rows="4"></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <button class="btn btn-success">Comment</button>
+        </form>
+    <% } %>  
+    <h3 class="mt-2">Comments</h3>
+    <% for(let comment of blog.comments){ %>
+        <div class="d-flex flex-row justify-content-between mb-1">
+            <cite><%=comment.author.fullname%> </cite>
+            <cite><%=comment.date %> </cite>
+        </div>
+        <div class="container">
+            <p><%= comment.body %> </p>
+        </div>
+        <div class="d-flex flex-row justify-content-between">
+            <% if(currentUser){ %>
+                <% if(currentUser._id.toString()!==comment.author._id.toString()){ %> 
+                <div class="d-flex flex-row justify-content-between">
+                    <form action="/blog/<%= blog._id %>/<%= comment._id %>" method="POST">
+                        <input type="hidden" name="vote" value="1">
+                        <button class="btn"><i class="fas fa-thumbs-up"></i></button>
+                    </form>
+                    <form action="/blog/<%= blog._id %>/<%= comment._id %>" method="POST">
+                        <input type="hidden" name="vote" value="-1">
+                        <button class="btn"><i class="fas fa-thumbs-down"></i></button>
+                    </form>
+                </div>
+                <% }else{ %>
+                    <div class="d-flex flex-row justify-content-between">
+                        <a href="#" class="btn btn-info">Edit</a>
+                        <a href="#" class="btn btn-danger">Delete</a>
+                    </div>
+                <% } %>  
+            <% } %>  
+            <div>Vote Count: <%=comment.votes %> </div>
+        </div>
+        <hr>
+    <% } %>  
+</div>

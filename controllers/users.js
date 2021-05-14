@@ -40,12 +40,11 @@ module.exports.register = async(req,res,next)=>{
         };
         mg.messages().send(data, function (error, body) {
             if(error){
-                console.log(err.message);
                 req.flash('error','Please try again later');
                 return res.redirect('/register');
             }
             req.flash('success','Verification Link sent on you mail');
-            return res.redirect('/');
+            return res.redirect('/login');
         });
 
     }catch (e){
@@ -60,13 +59,13 @@ module.exports.renderLogin = (req,res)=>{
 };
 
 module.exports.login = (req,res)=>{
-    req.flash('success','Welcome Back!');
+    // req.flash('success','Welcome Back!');
     res.redirect('/');
 }
 
 module.exports.logout = (req,res)=>{
     req.logout();
-    req.flash('success','Successfully Logged out');
+    // req.flash('success','Successfully Logged out');
     res.redirect('/');
 };
 
@@ -108,7 +107,7 @@ module.exports.auth = async (req,res,next)=>{
                     return next(err);
                 }
             });
-            req.flash('success','Welcome to the Community!');
+            // req.flash('success','Welcome to the Community!');
             return res.redirect('/');
         }catch(e){
             console.log(e);

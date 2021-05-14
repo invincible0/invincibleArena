@@ -1,0 +1,27 @@
+<% layout('layouts/boilerplate')%>
+
+<div class="container mt-3">
+    <% for(let i=0;i< categories.length;i+=2){ %>
+        <div class="d-flex flex-row justify-content-around mb-5">
+            <div class="card" style="width: 20rem;">
+                <img class="card-img-top" src="<%=categories[i].image%> " alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title"><%=categories[i].name%> </h5>
+                  
+                  <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+            <%if(i!=(categories.length -1)){ %>
+                <div class="card" style="width: 20rem;">
+                    <img class="card-img-top" src="<%=categories[i+1].image%> " alt="Card image cap">
+                    <div class="card-body">
+                      <h5 class="card-title"><%=categories[i+1].name%> </h5>
+                      
+                      <a href="#" class="btn btn-primary">View</a>
+                    </div>
+                </div>
+            <% } %>     
+        </div> 
+    <%} %> 
+    
+</div>

@@ -6,12 +6,18 @@ const UserSchema = new Schema({
     email:{
         type:String,
         required: true,
-        unique: true
+        
     },
     fullname:{
         type: String,
         required: true
-    }
+    },
+
+    voted:[
+        {
+            type:String,
+        }
+    ]
 });
 
 UserSchema.plugin(passportLocalMongoose);   

@@ -17,6 +17,8 @@ const cors = require('cors');
 const app = express();
 
 const userRoutes = require('./routes/users');
+const blogRoutes = require('./routes/blogs');
+const eventRoutes = require('./routes/events');
 
 const port = process.env.PORT;
 const dbUrl = process.env.DB_URL;
@@ -70,6 +72,8 @@ db.once("open",()=>{
 }); 
 
 app.use('/',userRoutes);
+app.use('/',blogRoutes);
+app.use('/',eventRoutes);
 
 app.get('/',(req,res)=>{
     res.render('home');
