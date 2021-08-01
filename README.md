@@ -17,4 +17,4 @@ Website to host sport events
 
 <img src="screenshots/eventIndex.png">
 
-<img src="mailVerification.png">
+<img src="screenshots/mailVerification.png">
